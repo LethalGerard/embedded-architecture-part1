@@ -20,6 +20,7 @@ CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Wextra -std=c11 \
 SRCS = \
 	src/main.c \
 	src/app.c \
+	src/state_machine.c \
 	drivers/gpio/gpio.c \
 	drivers/uart/uart.c \
 	drivers/uart/ring_buffer.c\

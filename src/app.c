@@ -5,6 +5,7 @@
 #include "uart.h"
 #include "millis.h"
 #include <string.h>
+#include "state_machine.h"
 
 #define CMD_BUFFER_SIZE 32
 
@@ -40,6 +41,7 @@ static void process_command(const char *cmd)
 
 void app_init(void)
 {
+    state_machine_init();
     gpio_pin_output(&LED_DDR, LED_PIN);
     gpio_pin_low(&LED_PORT, LED_PIN);
 
@@ -48,11 +50,16 @@ void app_init(void)
     uart_init(UART_BAUDRATE);
     uart_write_string("System ready\n");
     uart_write_string("Type: help\n");
+    if (state_machine_get_state() == APP_STATE_IDLE)
+    {
+        uart_write_string("Current state: IDLE\n");
+    }
 }
 
 void app_run(void)
 {
     char c;
+    state_machine_step();
 
     while (uart_read_char(&c))
     {
