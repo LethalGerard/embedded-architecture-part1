@@ -8,6 +8,8 @@ OBJCOPY = avr-objcopy
 SIZE    = avr-size
 AVRDUDE = avrdude
 
+SHELL := cmd.exe
+
 PROGRAMMER = arduino
 PORT       = COM3
 BAUD       = 115200
@@ -38,13 +40,13 @@ $(ELF): $(OBJS)
 	$(CC) $(CFLAGS) -Wl,-Map=$(MAP) -o $@ $^
 
 $(BUILD_DIR)/%.o: %.c
-	@if not exist "$(dir $@)" mkdir "$(dir $@)"
+	@if not exist "$(subst /,\,$(@D))" mkdir "$(subst /,\,$(@D))"
 	$(CC) $(CFLAGS) -c $< -o $@
 
 flash: $(HEX)
 	$(AVRDUDE) -c $(PROGRAMMER) -p m328p -P $(PORT) -b $(BAUD) -U flash:w:$(HEX):i
 
 clean:
-	@if exist $(BUILD_DIR) rmdir /s /q $(BUILD_DIR)
+	@if exist "$(BUILD_DIR)" rmdir /s /q "$(BUILD_DIR)"
 
 .PHONY: all clean flash
