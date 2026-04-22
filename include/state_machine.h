@@ -9,6 +9,7 @@ typedef enum {
 
 void state_machine_init(void);
 void state_machine_step(void);
+void state_machine_on_green_btn(void);
 
 AppState state_machine_get_state(void);
 
