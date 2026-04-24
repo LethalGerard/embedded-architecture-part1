@@ -6,7 +6,10 @@
 #define LED_DDR   DDRB
 #define LED_PORT  PORTB
 #define LED_PIN   PB5
-#define GREEN_BTN_DDR
-#define GREEN_BTN_PORT
+
+#define GREEN_BTN_DDR DDRB
+#define GREEN_BTN_PORT PORTB
+#define GREEN_BTN_PINR PINB
+#define GREEN_BTN_PIN PB4
 
 #endif

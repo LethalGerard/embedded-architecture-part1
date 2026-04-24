@@ -15,7 +15,7 @@ PORT       = COM3
 BAUD       = 115200
 
 CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Wextra -std=c11 \
-         -Iinclude -Ihal -Idrivers/gpio -Idrivers/uart -Isrc -Idrivers/millis
+         -Iinclude -Ihal -Idrivers/gpio -Idrivers/uart -Isrc -Idrivers/millis -Idrivers/button
 
 SRCS = \
 	src/main.c \
@@ -24,7 +24,8 @@ SRCS = \
 	drivers/gpio/gpio.c \
 	drivers/uart/uart.c \
 	drivers/uart/ring_buffer.c\
-	drivers/millis/millis.c
+	drivers/millis/millis.c\
+	drivers/button/button.c\
 
 OBJS = $(SRCS:%.c=$(BUILD_DIR)/%.o)
 ELF  = $(BUILD_DIR)/$(TARGET).elf

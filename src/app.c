@@ -6,6 +6,7 @@
 #include "millis.h"
 #include <string.h>
 #include "state_machine.h"
+#include "button.h"
 
 #define CMD_BUFFER_SIZE 32
 
@@ -44,6 +45,7 @@ void app_init(void)
     state_machine_init();
     gpio_pin_output(&LED_DDR, LED_PIN);
     gpio_pin_low(&LED_PORT, LED_PIN);
+    button_init();
 
     millis_init();
 
@@ -60,6 +62,27 @@ void app_run(void)
 {
     char c;
     state_machine_step();
+
+    static uint32_t last_press_ms = 0;
+    uint32_t now_ms = millis_get();
+    const uint32_t DEBOUNCE_MS = 60;
+
+    static bool prev_pressed = false;
+    bool now_pressed = is_green_button_pressed();
+
+    if (now_pressed && !prev_pressed)
+    {
+        if ((now_ms - last_press_ms) >= DEBOUNCE_MS)
+        {
+            state_machine_on_green_btn();
+            last_press_ms = now_ms;
+        }
+    }
+    if (!now_pressed && prev_pressed) // Protects from accidental press when realing button
+    {
+        last_press_ms = now_ms;
+    }
+    prev_pressed = now_pressed;
 
     while (uart_read_char(&c))
     {
