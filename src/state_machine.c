@@ -1,5 +1,7 @@
 #include "state_machine.h"
 
+static void handle_idle(void);
+
 static AppState current_state;
 
 void state_machine_init(void)
@@ -25,6 +27,7 @@ void state_machine_step(void)
     switch (current_state)
     {
     case APP_STATE_IDLE:
+            handle_idle();
         break;
     case APP_STATE_ACCESS_GRANTED:
         break;
@@ -34,4 +37,9 @@ void state_machine_step(void)
         current_state = APP_STATE_IDLE;
         break;
     }
+}
+
+static void handle_idle(void)
+{
+    
 }

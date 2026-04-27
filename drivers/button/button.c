@@ -9,5 +9,5 @@ void button_init()
 
 bool is_green_button_pressed()
 {
-        return (GREEN_BTN_PINR &(1 << GREEN_BTN_PIN)) == 0;
+    return (GREEN_BTN_PINR &(1 << GREEN_BTN_PIN)) == 0;
 }

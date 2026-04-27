@@ -43,8 +43,10 @@ static void process_command(const char *cmd)
 void app_init(void)
 {
     state_machine_init();
-    gpio_pin_output(&LED_DDR, LED_PIN);
-    gpio_pin_low(&LED_PORT, LED_PIN);
+    gpio_pin_output(&GREEN_LED_DDR, GREEN_LED_PIN);
+    gpio_pin_output(&RED_LED_DDR, RED_LED_PIN);
+    gpio_pin_high(&RED_LED_PORT, RED_LED_PIN);
+    gpio_pin_low(&GREEN_LED_PORT, GREEN_LED_PIN);
     button_init();
 
     millis_init();
