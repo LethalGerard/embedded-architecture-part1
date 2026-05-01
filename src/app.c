@@ -17,17 +17,17 @@ static void process_command(const char *cmd)
 {
     if (strcmp(cmd, "led on") == 0)
     {
-        gpio_pin_high(&LED_PORT, LED_PIN);
+        gpio_pin_high(&RED_LED_PORT, RED_LED_PIN);
         uart_write_string("LED is ON\n");
     }
     else if (strcmp(cmd, "led off") == 0)
     {
-        gpio_pin_low(&LED_PORT, LED_PIN);
+        gpio_pin_low(&RED_LED_PORT, RED_LED_PIN);
         uart_write_string("LED is OFF\n");
     }
     else if (strcmp(cmd, "led toggle") == 0)
     {
-        gpio_pin_toggle(&LED_PORT, LED_PIN);
+        gpio_pin_toggle(&RED_LED_PORT, RED_LED_PIN);
         uart_write_string("LED toggled\n");
     }
     else if (strcmp(cmd, "help") == 0)
