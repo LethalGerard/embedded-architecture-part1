@@ -7,6 +7,7 @@
 #include <string.h>
 #include "state_machine.h"
 #include "button.h"
+#include <stdint.h>
 
 #define CMD_BUFFER_SIZE 32
 
@@ -33,6 +34,57 @@ static void process_command(const char *cmd)
     else if (strcmp(cmd, "help") == 0)
     {
         uart_write_string("Commands: help, led on, led off, led toggle\n");
+    }
+    else if (strncmp(cmd, "NEW PIN;", 8) == 0)
+    {
+        const char *oldp = cmd + 8;
+        const char *sep = strchr(oldp, ';');
+
+        if (sep == NULL)
+        {
+            uart_write_string("Format error, use: NEW PIN;<old>;<new> \n");
+        } else {
+            char old_pin[4];
+            char new_pin[4];
+            bool ok = true;
+
+            if ((sep - oldp) != 4)
+            {
+                ok = false;
+            }
+
+            if (ok && strlen(sep + 1) != 4)
+            {
+                ok = false;
+            }
+
+            if (ok)
+            {
+                for (uint8_t i = 0; i < 4; i++)
+                {
+                    char c1 = oldp[i];
+                    char c2 = sep[1 + i];
+
+                    if (c1 < '0' || c1 > '9' || c2 < '0' || c2 > '9')
+                    {
+                        ok = false;
+                        break;
+                    }
+
+                    old_pin[i] = c1;
+                    new_pin[i] = c2;
+                }
+            }
+
+            if (!ok)
+            {
+                uart_write_string("Format error, use: NEW PIN;<old>;<new> \n");
+            } else if (state_machine_set_pin(old_pin, new_pin)) {
+                uart_write_string("Pin updated \n");
+            } else {
+                uart_write_string("Pin update failed \n");
+            }
+        }
     }
     else
     {
