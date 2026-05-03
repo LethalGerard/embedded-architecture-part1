@@ -48,6 +48,7 @@ void app_init(void)
     gpio_pin_high(&RED_LED_PORT, RED_LED_PIN);
     gpio_pin_low(&GREEN_LED_PORT, GREEN_LED_PIN);
     button_init();
+    keypad_init();
 
     millis_init();
 
